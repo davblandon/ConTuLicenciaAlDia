@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 const express= require('express');
 var app = express();
 const mongoose = require('mongoose');
 var cookieParser = require('cookie-parser')
+=======
+const express= require('express')
+const passport = require('passport');//login
+const cookieParser = require('cookie-parser');//login
+const session = require('express-session');
+const passportLocal = require('passport').Strategy;//login
+>>>>>>> e49670600239920f6f8a54086546de9e76df57ae
 
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
@@ -63,11 +71,16 @@ passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
+<<<<<<< HEAD
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
   });
 });
+=======
+app.use(passport.initialize());
+app.use(passport.session());
+>>>>>>> e49670600239920f6f8a54086546de9e76df57ae
 
 // app.configure = () => {
 //   app.use(express.static('public'));

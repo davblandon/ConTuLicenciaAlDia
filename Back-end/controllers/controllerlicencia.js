@@ -1,4 +1,9 @@
+const { Mongoose } = require("mongoose");
+const licencia = {};
+const Licencia = require("../models/licencia");
+
 function prueba(req, res) {
+<<<<<<< HEAD
     res.status(200).send({
       message: "probando una acción",
     });
@@ -10,32 +15,48 @@ function savelicencia(req, res) {
     res.status(200).send({ message: result });
   });
 }
+=======
+  // res.status(200).send({
+  //   message: "probando una acción",
+  // });
+  res.status(200).send("ESTA MONDA FUNCIONA WEON");
+}
+function savelicencia(req, res) {
+  var mylicencia = new Licencia(req.body);
+  mylicencia.save((err, result) => {
+    res.status(200).send({ message: result });
+  });
+}
+>>>>>>> e49670600239920f6f8a54086546de9e76df57ae
 function buscarlicencia(req, res) {
   var idlicence = req.params.id;
-  licencia.findById(idlicence).exec(function (err, result) {
-      if (err) {
+  Licencia.findById(idlicence).exec(function (err, result) {
+    if (err) {
+      res
+        .status(500)
+        .send({ message: "Error al momento de ejecutar la solicitud" });
+    } else {
+      if (!result) {
         res
-          .status(500)
-          .send({ message: "Error al momento de ejecutar la solicitud" });
+          .status(404)
+          .send({ message: "El registro a buscar no se encuentra disponible" });
       } else {
-        if (!result) {
-          res
-            .status(404)
-            .send({ message: "El registro a buscar no se encuentra disponible" });
-        } else {
-          res.status(200).send({ result });
-        }
+        res.status(200).send({ result });
       }
     }
+<<<<<<< HEAD
     );
+=======
+  });
+>>>>>>> e49670600239920f6f8a54086546de9e76df57ae
 }
 
 function listarlicencias(req, res) {
   var idlicence = req.params.idb;
   if (!idlicence) {
-    var result = licencia.find({}).sort("nombre");
+    var result = Licencia.find({}).sort("numero_secuencial");
   } else {
-    var result = licencia.find({ _id: idlicence }).sort("nombre");
+    var result = Licencia.find({ _id: idlicence }).sort("numero_secuencial");
   }
   result.exec(function (err, result) {
     if (err) {
@@ -53,22 +74,32 @@ function listarlicencias(req, res) {
     }
   });
 }
-function updatelicencia(req, res) {
-  var id = mongoose.Types.ObjectId(req.query.productId);
-  licencia.findOneAndUpdate(
-    { _id: id },
-    req.body,
-    { new: true },
-    function (err, licencia) {
-      if (err) res.send(err);
-      res.json(licencia);
-    }
-  );
-}
+licencia.updatelicencia = async (req, res) => {
+  const { id } = req.params;
+  const licence = {
+    numero_secuencial: req.body.numero_secuencial,
+    fecha_expedicion: req.body.fecha_expedicion,
+    Tipo: req.body.Tipo,
+    modalidad: req.body.modalidad,
+    vigencia: req.body.vigencia,
+    nombre_completo_propietario: req.body.nombre_completo_propietario,
+    identificacion_propietario: req.body.identificacion_propietario,
+    nombre_urbanizacion: req.body.nombre_urbanizacion,
+    direccion_predio: req.body.direccion_predio,
+    descripcion: req.body.descripcion,
+    planos: req.body.planos,
+    supervicion_tecnica: req.body.supervicion_tecnica,
+    certificado_ocupacion: req.body.certificado_ocupacion,
+  };
+  await Licencia.findByIdAndUpdate(id, { $set: licence }, { new: true });
+  res.json({
+    status: "LicenciaUpdate",
+  });
+};
 module.exports = {
   prueba,
   savelicencia,
   buscarlicencia,
   listarlicencias,
-  updatelicencia,
+  licencia,
 };
