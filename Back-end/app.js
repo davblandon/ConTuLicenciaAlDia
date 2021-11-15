@@ -1,14 +1,12 @@
-var xpress= require('express')
-var passport = require('passport');//login
-var cookieParser = require('cookie-parser');//login
-var session = require('express-session');
-var passportLocal = require('passport').Strategy;//login
-
-
+const express= require('express');
 var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-  //methodOverride = require("method-override");
+const mongoose = require('mongoose');
+var cookieParser = require('cookie-parser')
+
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+// const bcrypt = require('bcrypt');
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,43 +29,68 @@ module.exports = app;
 
 
 //leer datos de un formulario
-app.use(express.urlencoded({extended: true}));
+// app.use(express.urlencoded({extended: true}));
 
-app.use(cookieParser(''));
-
-
-//comportamiento de la sesion
-app.use(session({
-  secret: 'es secrto',
-  resave: true,
-  saveUninitialized: true,
-}));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 
-app.uset(passport.initialize());
-app.uset(passport.session());
-
-// passport.use(new PassportLocal(function(username,password,done) {
-//   done()
-//   if(username == "codigo facilito" and password == "123456"){
-
-//   }
-// }));
-
-
-
-app.set('view engine', 'ejs');
-//login 
-app.get("/", function (req, res) {
-    //sí ya iniciamos, dar vista unica
-    //si el login sale mal, redirecion
+passport.use(new LocalStrategy(function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, res.send ({ message: 'Incorrect password.' }));
+      }
+      return done(null, user);
+    });
   }
-)
-app.get('/login', function (req, res) {
-    //mostrar formulario de login
-    res.render(login);
-  },
+));
 
-app.post('/login', function (req, res) {
-    //recibir credenciales e inicior sesion 
-  }))
+
+var session = require("express-session"),
+    bodyParser = require("body-parser");
+
+app.use(express.static("public"));
+app.use(session({ secret: "cats" }));
+app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+// app.configure = () => {
+//   app.use(express.static('public'));
+//   app.use(express.cookieParser());
+//   app.use(express.bodyParser());
+//   app.use(express.session({ secret: 'keyboard cat' }));
+//   app.use(passport.initialize());
+//   app.use(passport.session());
+//   app.use(app.router);
+// };
+
+
+// app.post('/login',
+//   passport.authenticate('local'),
+//   function(req, res) {
+//     // If this function gets called, authentication was successful.
+//     // `req.user` contains the authenticated user.
+//     res.redirect('/users/' + req.user.username);
+//   });
+
+//   app.post('/login',
+//   passport.authenticate('local', { successRedirect: '/',
+//                                    failureRedirect: '/login' }));
+
+
+

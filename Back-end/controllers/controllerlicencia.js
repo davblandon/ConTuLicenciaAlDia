@@ -1,15 +1,15 @@
 function prueba(req, res) {
-  //   res.status(200).send({
-  //     message: "probando una acción",
-  //   });
+    res.status(200).send({
+      message: "probando una acción",
+    });
   res.status(200).send("Prueba satisfactoria");
 }
-// function savelicencia(req, res) {
-//   var mylicence = new licencia(req.body);
-//   mylicence.save((err, result) => {
-//     res.status(200).send({ message: result });
-//   });
-// }
+function savelicencia(req, res) {
+  var mylicence = new licencia(req.body);
+  mylicence.save((err, result) => {
+    res.status(200).send({ message: result });
+  });
+}
 function buscarlicencia(req, res) {
   var idlicence = req.params.id;
   licencia.findById(idlicence).exec(function (err, result) {
@@ -26,7 +26,8 @@ function buscarlicencia(req, res) {
           res.status(200).send({ result });
         }
       }
-    });
+    }
+    );
 }
 
 function listarlicencias(req, res) {
