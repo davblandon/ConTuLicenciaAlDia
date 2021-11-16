@@ -1,11 +1,6 @@
-const { Router, response } = require("express");
+const { Router } = require("express");
 const router = Router();
-const path = require("path")
-const controllerlicencia = require("../controllers/controllerlicencia");
-const express = require("express");
-
-
-router.get('/login', (req, res) =>{res.sendFile(path.resolve( __dirname,"../views/login.html"))})
+var controllerlicencia = require("../controllers/controllerlicencia");
 router.get("/prueba", controllerlicencia.prueba);
 router.post('/crear',controllerlicencia.savelicencia);
 router.post('/buscar/:id',controllerlicencia.buscarlicencia);

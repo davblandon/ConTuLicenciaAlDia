@@ -3,19 +3,6 @@ const licencia = {};
 const Licencia = require("../models/licencia");
 
 function prueba(req, res) {
-<<<<<<< HEAD
-    res.status(200).send({
-      message: "probando una acción",
-    });
-  res.status(200).send("Prueba satisfactoria");
-}
-function savelicencia(req, res) {
-  var mylicence = new licencia(req.body);
-  mylicence.save((err, result) => {
-    res.status(200).send({ message: result });
-  });
-}
-=======
   // res.status(200).send({
   //   message: "probando una acción",
   // });
@@ -27,7 +14,6 @@ function savelicencia(req, res) {
     res.status(200).send({ message: result });
   });
 }
->>>>>>> e49670600239920f6f8a54086546de9e76df57ae
 function buscarlicencia(req, res) {
   var idlicence = req.params.id;
   Licencia.findById(idlicence).exec(function (err, result) {
@@ -44,11 +30,7 @@ function buscarlicencia(req, res) {
         res.status(200).send({ result });
       }
     }
-<<<<<<< HEAD
-    );
-=======
   });
->>>>>>> e49670600239920f6f8a54086546de9e76df57ae
 }
 
 function listarlicencias(req, res) {
