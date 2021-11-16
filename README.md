@@ -60,15 +60,12 @@ En esta vista se debe tener una tabla donde muestre las licencias de construcci�
 |David Blandon  Bañol        |`DESARROLLADOR` |       
 |Jessica Rojas Aristizabal       |`DESARROLLADOR`|
 
-# Documentación
-Se trabajo con las herramientas del stack de desarrollo MEAN para llevar a cabo el Back-end y Front-end del aplicativo.
 ## Herramientas
 | Nombre| Link |
 |--|--|
 | Nodejs |[Node.js](https://nodejs.org/es/) |
 |Express|[Express](https://expressjs.com/es/)|
 |MongoDB|[Mongo](https://www.mongodb.com/es)|
-|Angular js|[AngularJs](https://angularjs.org/)|
 
 
 
