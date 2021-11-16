@@ -1,3 +1,12 @@
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import path from 'path';
+
+const express= require('express');
+var app = express();
+const mongoose = require('mongoose');
+var cookieParser = require('cookie-parser')
 const express= require('express')
 const passport = require('passport');//login
 const cookieParser = require('cookie-parser');//login
@@ -5,16 +14,45 @@ const session = require('express-session');
 const passportLocal = require('passport').Strategy;//login
 
 
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-  //methodOverride = require("method-override");
 
+//MIDDELWARE
+app.use(morgan('tiny'));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cors({
 //     origin: 'http://localhost:4200'
 // }));
+
+// Para acceder al directorio actual
+
+
+// app.get('/', function(req,res){
+//     res.send('Hello World!');
+// });
+
+app.use('/api', require('./routes/users'));
+
+// Middleware para Vue.js router modo history
+const history = require('connect-history-api-fallback');
+app.use(history());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// ASIGNAR PUERTO ESPECIFICO
+// app.listen(3000,function name() {
+//     console.log('Example app listing on port 3000!');
+// })
+
+// ASIGNAR PUERTO DINAMICO
+app.set('puerto', process.env.PORT || 3000);
+app.listen(app.get('puerto'), function () {
+ console.log('Contectado al puerto '+ app.get('puerto'));
+});
+
+
+
+
 
 
 // Configurar cabeceras y cors
@@ -30,47 +68,3 @@ app.use(function (req, res, next) {
   });
 app.use(require('./routers/router'));
 module.exports = app;
-
-
-
-//leer datos de un formulario
-app.use(express.urlencoded({extended: true}));
-
-app.use(cookieParser(''));
-
-
-//comportamiento de la sesion
-app.use(session({
-  secret: 'es secrto',
-  resave: true,
-  saveUninitialized: true,
-}));
-
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// passport.use(new PassportLocal(function(username,password,done) {
-//   done()
-//   if(username == "codigo facilito" and password == "123456"){
-
-//   }
-// }));
-
-
-
-app.set('view engine', 'ejs');
-//login 
-app.get("/", function (req, res) {
-    //sí ya iniciamos, dar vista unica
-    //si el login sale mal, redirecion
-  }
-)
-app.get('/login', function (req, res) {
-    //mostrar formulario de login
-    res.render(login);
-  },
-
-app.post('/login', function (req, res) {
-    //recibir credenciales e inicior sesion 
-  }))
