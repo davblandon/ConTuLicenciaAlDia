@@ -20,6 +20,9 @@ app.use(morgan('tiny'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(cors({
+//     origin: 'http://localhost:4200'
+// }));
 
 // Para acceder al directorio actual
 
