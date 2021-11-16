@@ -56,7 +56,7 @@ En esta vista se debe tener una tabla donde muestre las licencias de construcci√
 
 |     NOMBRE       |FUNCION          |
 |----------------|-------------------------------|
-|Kevin Caicedo Diago|`DESARROLLADOR / SCRUM MASTER` |           
+|Kevin Caicedo Diago|`DESARROLLADOR ` |           
 |David Blandon  Ba√±ol        |`DESARROLLADOR` |       
 |Jessica Rojas Aristizabal       |`DESARROLLADOR`|
 
